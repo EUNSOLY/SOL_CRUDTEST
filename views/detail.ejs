@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메인페이지</title>
+  </head>
+  <body>
+    <h1>상세페이지 입니다.</h1>
+
+    <ul>
+      <li>
+        <p hidden>id : <%= date._id%></p>
+        <p>이은솔 할일 : <%= date.할일%></p>
+        <p>할일 완료일자 : <%= date.완료일자%></p>
+        <button class="Dbtn" data-id="<%= date._id%>">삭제</button>
+        <a href="/edit/<%= date._id%>">수정</a>
+      </li>
+    </ul>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+      integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      $(".Dbtn").click(function (e) {
+        let num = e.target.dataset.id;
+        console.log(num);
+        $.ajax({
+          method: "DELETE",
+          url: "/delete",
+          data: { _id: num },
+        })
+          .done(function (result) {
+            console.log("성공");
+            location.replace("/list");
+          })
+          .fail(function (err) {
+            console.log("실패");
+          });
+      });
+    </script>
+  </body>
+</html>

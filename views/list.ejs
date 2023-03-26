@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메인페이지</title>
+  </head>
+  <body>
+    <h1>출력페이지 입니다.</h1>
+
+    <nav>
+      <a href="/">홈으로</a>
+      <a href="/input">입력페이지</a>
+      <a href="/list">입력데이터 출력페이지</a>
+    </nav>
+
+    <ul>
+      <% for(let i = 0; i < list.length; i++) { %>
+      <li>
+        <a href="/detail/<%= list[i]._id%>">
+          <p hidden>id : <%= list[i]._id%></p>
+          <p>이은솔 할일 : <%= list[i].할일%></p>
+          <p>할일 완료일자 : <%= list[i].완료일자%></p>
+        </a>
+        <button class="Dbtn" data-id="<%= list[i]._id%>">삭제</button>
+      </li>
+      <% } %>
+    </ul>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+      integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      $(".Dbtn").click(function (e) {
+        let num = e.target.dataset.id;
+        console.log(num);
+        $.ajax({
+          method: "DELETE",
+          url: "/delete",
+          data: { _id: num },
+        })
+          .done(function (result) {
+            console.log("성공");
+            $(e.target).parent("li").fadeOut(200);
+          })
+          .fail(function (err) {
+            console.log("실패");
+          });
+      });
+    </script>
+  </body>
+</html>
